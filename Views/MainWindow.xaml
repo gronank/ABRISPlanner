@@ -16,7 +16,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <DockPanel LastChildFill="False" Background="Navy" Grid.ColumnSpan="2">
-            <Button Content="Load Server Situation" Width="196" Margin="15,15,15,15"/>
+            <Button Content="Load Server Situation" Width="196" Margin="15,15,15,15" Command="{Binding UpdateSituation}"/>
         </DockPanel>
         <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="2" VerticalAlignment="Stretch" Background="DeepSkyBlue">
             <Grid HorizontalAlignment="Stretch" Margin="5,5,5,5">

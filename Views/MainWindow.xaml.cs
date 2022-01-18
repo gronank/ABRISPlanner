@@ -25,7 +25,7 @@ namespace ABRISPlanner.Views
         public MainWindow()
         {
             InitializeComponent();
-            Plan p = new() { Routes = new(){ new() { Name = "Route 1", Waypoints = new() { new() { Name = "wp1" }, new() { Name = "wp2" } } }, new() { Name = "Route 2" }, } };
+            Plan p = new() { Routes = new(){ new() { Name = "Route 1", Waypoints = new() { new() { Name = "wp1" }, new() { Name = "wp2" } } }, new() { Name = "Route 2" }, },Situation = new() };
             DataContext = new PlanViewModel(p);
         }
     }
