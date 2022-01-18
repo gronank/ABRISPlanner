@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ABRISPlanner
+namespace ABRISPlanner.Views
 {
     /// <summary>
-    /// Interaction logic for MapView.xaml
+    /// Interaction logic for RouteView.xaml
     /// </summary>
-    public partial class MapView : UserControl
+    public partial class RouteView : UserControl
     {
-        public MapView()
+        public RouteView()
         {
             InitializeComponent();
         }
