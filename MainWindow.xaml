@@ -1,0 +1,52 @@
+﻿<Window x:Class="ABRISPlanner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ABRISPlanner"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1200">
+    <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="226"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DockPanel LastChildFill="False" Background="Navy" Grid.ColumnSpan="2">
+            <Button Content="Load Server Situation" Width="196" Margin="15,15,15,15"/>
+        </DockPanel>
+        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="2" VerticalAlignment="Stretch" Background="DeepSkyBlue">
+            <Grid HorizontalAlignment="Stretch" Margin="5,5,5,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="300"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Row="0" Header="Routes">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <ListBox ItemsSource="{Binding Routes}" SelectedItem="{Binding SelectedRoute}" SelectedIndex="{Binding RouteIndex,Mode=OneWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl Content="{Binding Name}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Grid.Row="1" Margin="2,2,2,2" Content="Add Route" Command="{Binding AddRoute}"/>
+                    </Grid>
+                </GroupBox>
+                <local:RouteView Grid.Row="1" DataContext="{Binding SelectedRoute}"/>
+            </Grid>
+        </ScrollViewer>
+        <local:MapView DataContext="{Binding MapControl}" Grid.Row="1" Grid.Column="1"/>
+    </Grid>
+</Window>

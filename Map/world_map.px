@@ -1,0 +1,1504 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Configuration xmlns="http://www.carmenta.com/Engine5" Namespace="world_map" Version="5.14.1.1">
+  <Comment Name="README">
+    <Comment.Comment>
+      <![CDATA[<h4>World map</h4>Uses both raster and vector data sources. Different layers are visible depending on the scale. 
+
+The scale limits are named utility objects, so that they are easy to maintain and share between layers: 
+
+LakesMaxScale           =   6 000 000
+VegetationMaxScale  =   5 000 000
+DetailsMaxScale         =   4 000 000
+CitiesMaxScale           =   2 000 000
+SmallCitiesMaxScale  =     800 000
+
+The elevation dataset has RasterCachePolicy=Overviews 
+to ensure that the data is fast also when zoomed out.
+
+The city names are label-organized, which means that their placement is adjusted so that 
+they do not overwrite each other.]]>
+    </Comment.Comment>
+  </Comment>
+  <ViewConstraints MaxNominalScale="1.6384E8" MinNominalScale="80000" Name="ViewConstraints0">
+    <ViewConstraints.Bounds>
+      <Rectangle XMax="1.0E10" XMin="-1.0E10" YMax="5.96135E7" YMin="-5.96135E7"/>
+    </ViewConstraints.Bounds>
+  </ViewConstraints>
+  <Color B="238" G="224" Name="WaterColor" R="192"/>
+  <BitmapDrawable Name="Window0">
+    <BitmapDrawable.Background>
+      <ResourceReference Value="WaterColor"/>
+    </BitmapDrawable.Background>
+  </BitmapDrawable>
+  <Color B="193" G="216" Name="LANDAColor" R="222"/>
+  <PolygonVisualizer Name="PolygonVis0">
+    <PolygonVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </PolygonVisualizer.AntiAlias>
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="LANDAColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </PolygonVisualizer.Color>
+    <PolygonVisualizer.Condition>
+      <Condition Expression="facc = &quot;FA001&quot;"/>
+    </PolygonVisualizer.Condition>
+  </PolygonVisualizer>
+  <EnvironmentVariable IfAbsentLinux="/usr/share/carmenta/geodata-5.12" IfAbsentWindows="C:\Program Files (x86)\Carmenta\Carmenta Engine Samples Geodata 5.12\geodata" Key="CARMENTA_ENGINE_5_12_GEODATA" Name="GeoDataRoot"/>
+  <Path Name="WVSIndexPath">
+    <Path.Parts>
+      <ResourceReference Value="GeoDataRoot"/>
+      <String Value="Index"/>
+      <String Value="WVS"/>
+    </Path.Parts>
+  </Path>
+  <Path Name="WorldVectorShorelinePath">
+    <Path.Parts>
+      <ResourceReference Value="GeoDataRoot"/>
+      <String Value="worldmap/extract_from_wvs"/>
+    </Path.Parts>
+  </Path>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocarea" LibraryName="WVS001m" Name="COCArea1M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="PolygonReadOp0">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCArea1M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="0.0" Name="LodInput0">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="PolygonReadOp0"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocarea" LibraryName="WVS003M" Name="COCArea3M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="PolygonReadOp1">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCArea3M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="2000000.0" Name="LodInput2">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="PolygonReadOp1"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocarea" LibraryName="WVS012M" Name="COCArea12M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="PolygonReadOp2">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCArea12M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="8000000.0" Name="LodInput3">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="PolygonReadOp2"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocarea" LibraryName="WVS040M" Name="COCArea40M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="PolygonReadOp3">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCArea40M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="3.0E7" Name="LodInput4">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="PolygonReadOp3"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocarea" LibraryName="WVS120M" Name="COCArea120M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="PolygonReadOp4">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCArea120M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="1.0E8" Name="LodInput14">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="PolygonReadOp4"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <LevelOfDetailOperator Criteria="Scale" Name="LOD0">
+    <LevelOfDetailOperator.Inputs>
+      <LevelOfDetails>
+        <ResourceReference Value="LodInput0"/>
+        <ResourceReference Value="LodInput2"/>
+        <ResourceReference Value="LodInput3"/>
+        <ResourceReference Value="LodInput4"/>
+        <ResourceReference Value="LodInput14"/>
+      </LevelOfDetails>
+    </LevelOfDetailOperator.Inputs>
+  </LevelOfDetailOperator>
+  <VisualizationOperator Name="VisualizationOp0">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="LOD0"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="PolygonVis0"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="COCAreaLayer">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp0"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <TileLayer Name="Land" ViewAreaExtensionRadius="25.0">
+    <TileLayer.Layers>
+      <Layers>
+        <ResourceReference Value="COCAreaLayer"/>
+      </Layers>
+    </TileLayer.Layers>
+  </TileLayer>
+  <int Name="VegetationMaxScale" Value="5000000"/>
+  <Color B="178" G="228" Name="CropColor" Public="true" R="225"/>
+  <PolygonVisualizer Name="CropVis">
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CropColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </PolygonVisualizer.Color>
+  </PolygonVisualizer>
+  <Path Name="VMAP0IndexPath">
+    <Path.Parts>
+      <ResourceReference Value="GeoDataRoot"/>
+      <String Value="Index"/>
+      <String Value="VMAP0"/>
+    </Path.Parts>
+  </Path>
+  <Path Name="VMAP0Path">
+    <Path.Parts>
+      <ResourceReference Value="GeoDataRoot"/>
+      <String Value="worldmap/extract_from_vmap0"/>
+    </Path.Parts>
+  </Path>
+  <VpfDataSet CoverageName="Veg" FeatureClass="cropa" LibraryName="EURNASIA" Name="CropData" ReadAttributes="false">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="CropReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="CropData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <RectangleClipOperator Name="RectClipOp10">
+    <RectangleClipOperator.Input>
+      <ResourceReference Value="CropReadOp"/>
+    </RectangleClipOperator.Input>
+  </RectangleClipOperator>
+  <VisualizationOperator Name="VisualizationOp1">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="RectClipOp10"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="CropVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Crop" PixelMarginDown="2" PixelMarginLeft="2" PixelMarginRight="2" PixelMarginUp="2">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp1"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <Color B="155" G="232" Name="GrassColor" Public="true" R="208"/>
+  <PolygonVisualizer Name="GrassVis">
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="GrassColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </PolygonVisualizer.Color>
+  </PolygonVisualizer>
+  <VpfDataSet CoverageName="Veg" FeatureClass="grassa" LibraryName="EURNASIA" Name="GrassData" ReadAttributes="false">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="GrassReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="GrassData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <RectangleClipOperator Name="RectClipOp0">
+    <RectangleClipOperator.Input>
+      <ResourceReference Value="GrassReadOp"/>
+    </RectangleClipOperator.Input>
+  </RectangleClipOperator>
+  <VisualizationOperator Name="VisualizationOp2">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="RectClipOp0"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="GrassVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Grass" PixelMarginDown="2" PixelMarginLeft="2" PixelMarginRight="2" PixelMarginUp="2">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp2"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <Color B="171" G="215" Name="TreesColor" Public="true" R="186"/>
+  <PolygonVisualizer Name="TreesVis">
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="TreesColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </PolygonVisualizer.Color>
+  </PolygonVisualizer>
+  <VpfDataSet CoverageName="Veg" FeatureClass="treesa" LibraryName="EURNASIA" Name="TreesData" ReadAttributes="false">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="TressReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="TreesData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <RectangleClipOperator Name="RectClipOp2">
+    <RectangleClipOperator.Input>
+      <ResourceReference Value="TressReadOp"/>
+    </RectangleClipOperator.Input>
+  </RectangleClipOperator>
+  <VisualizationOperator Name="VisualizationOp3">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="RectClipOp2"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="TreesVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Trees" PixelMarginDown="2" PixelMarginLeft="2" PixelMarginRight="2" PixelMarginUp="2">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp3"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <Color B="177" G="224" Name="SwampColor" Public="true" R="214"/>
+  <PolygonVisualizer Name="SwampVis">
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="SwampColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </PolygonVisualizer.Color>
+  </PolygonVisualizer>
+  <VpfDataSet CoverageName="Veg" FeatureClass="swampa" LibraryName="EURNASIA" Name="SwampData" ReadAttributes="false">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="SwampReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="SwampData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <RectangleClipOperator Name="RectClipOp1">
+    <RectangleClipOperator.Input>
+      <ResourceReference Value="SwampReadOp"/>
+    </RectangleClipOperator.Input>
+  </RectangleClipOperator>
+  <VisualizationOperator Name="VisualizationOp4">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="RectClipOp1"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="SwampVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Swamp" PixelMarginDown="2" PixelMarginLeft="2" PixelMarginRight="2" PixelMarginUp="2">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp4"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <Color B="212" G="227" Name="TundraColor" Public="true" R="222"/>
+  <PolygonVisualizer Name="TundraVis">
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="TundraColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </PolygonVisualizer.Color>
+  </PolygonVisualizer>
+  <VpfDataSet CoverageName="Veg" FeatureClass="tundraa" LibraryName="EURNASIA" Name="TundraData" ReadAttributes="false">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="TundraReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="TundraData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <RectangleClipOperator Name="RectClipOp3">
+    <RectangleClipOperator.Input>
+      <ResourceReference Value="TundraReadOp"/>
+    </RectangleClipOperator.Input>
+  </RectangleClipOperator>
+  <VisualizationOperator Name="VisualizationOp5">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="RectClipOp3"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="TundraVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Tundra" PixelMarginDown="2" PixelMarginLeft="2" PixelMarginRight="2" PixelMarginUp="2">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp5"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <LayerSet Name="Vegetation">
+    <LayerSet.Layers>
+      <Layers>
+        <ResourceReference Value="Crop"/>
+        <ResourceReference Value="Grass"/>
+        <ResourceReference Value="Trees"/>
+        <ResourceReference Value="Swamp"/>
+        <ResourceReference Value="Tundra"/>
+      </Layers>
+    </LayerSet.Layers>
+    <LayerSet.MaxScale>
+      <ResourceReference Value="VegetationMaxScale"/>
+    </LayerSet.MaxScale>
+    <LayerSet.UserProperties>
+      <AttributeSet>
+        <Attribute Key="displayName">
+          <Attribute.Value>
+            <AttributeValue Type="String" Value="World Water"/>
+          </Attribute.Value>
+        </Attribute>
+      </AttributeSet>
+    </LayerSet.UserProperties>
+  </LayerSet>
+  <int Name="LakesMaxScale" Value="6000000"/>
+  <PolygonVisualizer Name="LakePolygonVis">
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="WaterColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </PolygonVisualizer.Color>
+  </PolygonVisualizer>
+  <Color B="214" G="167" Name="CoastLineColor" R="146"/>
+  <LineVisualizer Name="LakeEdgeVis">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CoastLineColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </LineVisualizer.Color>
+  </LineVisualizer>
+  <VpfDataSet CoverageName="Hydro" FeatureClass="inwatera" LibraryName="EURNASIA" Name="InwaterData">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="LakeReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="InwaterData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOp6">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="LakeReadOp"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="LakePolygonVis"/>
+        <ResourceReference Value="LakeEdgeVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Lakes">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp6"/>
+    </OrdinaryLayer.Input>
+    <OrdinaryLayer.MaxScale>
+      <ResourceReference Value="LakesMaxScale"/>
+    </OrdinaryLayer.MaxScale>
+  </OrdinaryLayer>
+  <int Name="DetailsMaxScale" Value="4000000"/>
+  <LineVisualizer Name="WaterLineVis">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CoastLineColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </LineVisualizer.Color>
+  </LineVisualizer>
+  <VpfDataSet CoverageName="Hydro" FeatureClass="watrcrsl" LibraryName="EURNASIA" Name="WatrcrsData">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="RiverReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="WatrcrsData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOp7">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="RiverReadOp"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="WaterLineVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="SmallRivers">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp7"/>
+    </OrdinaryLayer.Input>
+    <OrdinaryLayer.MaxScale>
+      <ResourceReference Value="DetailsMaxScale"/>
+    </OrdinaryLayer.MaxScale>
+  </OrdinaryLayer>
+  <VpfDataSet CoverageName="Hydro" FeatureClass="aquacanl" LibraryName="EURNASIA" Name="AquecanData" ReadAttributes="false">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="CanalReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="AquecanData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOp8">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="CanalReadOp"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="WaterLineVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Canals">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp8"/>
+    </OrdinaryLayer.Input>
+    <OrdinaryLayer.MaxScale>
+      <ResourceReference Value="DetailsMaxScale"/>
+    </OrdinaryLayer.MaxScale>
+  </OrdinaryLayer>
+  <LayerSet Name="Water">
+    <LayerSet.Layers>
+      <Layers>
+        <ResourceReference Value="Lakes"/>
+        <ResourceReference Value="SmallRivers"/>
+        <ResourceReference Value="Canals"/>
+      </Layers>
+    </LayerSet.Layers>
+  </LayerSet>
+  <TileLayer Name="LandUse">
+    <TileLayer.Layers>
+      <Layers>
+        <ResourceReference Value="Vegetation"/>
+        <ResourceReference Value="Water"/>
+      </Layers>
+    </TileLayer.Layers>
+  </TileLayer>
+  <Color A="182" B="134" G="199" Name="CityPolygonColor" Public="true" R="253"/>
+  <PolygonVisualizer Name="CityPolyVis">
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CityPolygonColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </PolygonVisualizer.Color>
+  </PolygonVisualizer>
+  <Color B="114" G="148" Name="CityEdgeColor" Public="true" R="225"/>
+  <LineVisualizer Name="CityPolyEdgeVis">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CityEdgeColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </LineVisualizer.Color>
+  </LineVisualizer>
+  <VpfDataSet CoverageName="pop" FeatureClass="builtupa" LibraryName="EURNASIA" Name="BuiltUpData">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="CityReadOp0">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="BuiltUpData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOp11">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="CityReadOp0"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="CityPolyVis"/>
+        <ResourceReference Value="CityPolyEdgeVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="CityPolygons" PixelMarginDown="10" PixelMarginUp="10">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp11"/>
+    </OrdinaryLayer.Input>
+    <OrdinaryLayer.MaxScale>
+      <ResourceReference Value="DetailsMaxScale"/>
+    </OrdinaryLayer.MaxScale>
+  </OrdinaryLayer>
+  <int Name="RoadsMaxScale" Public="true" Value="2000000"/>
+  <Color B="102" G="143" Name="RoadEdgeColor" Public="true" R="206"/>
+  <LineVisualizer Name="SecondaryRoadVis">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="RoadEdgeColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </LineVisualizer.Color>
+    <LineVisualizer.Condition>
+      <Condition Expression="rtt &gt; 14"/>
+    </LineVisualizer.Condition>
+  </LineVisualizer>
+  <LineVisualizer Name="PrimaryRoadEdgeVis">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="RoadEdgeColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </LineVisualizer.Color>
+    <LineVisualizer.Width>
+      <DirectAttributeVariable Value="3.0" ValueType="double"/>
+    </LineVisualizer.Width>
+  </LineVisualizer>
+  <Color B="156" G="232" Name="RoadCenterColor" Public="true" R="255"/>
+  <LineVisualizer Name="PrimaryRoadCenterVis">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Color>
+      <DirectAttributeVariable ValueType="Color">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="RoadCenterColor"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </LineVisualizer.Color>
+    <LineVisualizer.Width>
+      <DirectAttributeVariable Value="2.0" ValueType="double"/>
+    </LineVisualizer.Width>
+  </LineVisualizer>
+  <LayeredLineStyle Name="LayeredLineStyle0">
+    <LayeredLineStyle.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="PrimaryRoadEdgeVis"/>
+        <ResourceReference Value="PrimaryRoadCenterVis"/>
+      </Visualizers>
+    </LayeredLineStyle.Visualizers>
+  </LayeredLineStyle>
+  <LineVisualizer Name="PrimaryRoadVis">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Condition>
+      <Condition Expression="rtt &lt;= 14"/>
+    </LineVisualizer.Condition>
+    <LineVisualizer.Style>
+      <DirectAttributeVariable ValueType="LineStyle">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="LayeredLineStyle0"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </LineVisualizer.Style>
+  </LineVisualizer>
+  <VpfDataSet CoverageName="trans" FeatureClass="roadl" LibraryName="EURNASIA" Name="RoadData">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="VMAP0IndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="VMAP0Path"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="RoadReadOp0">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="RoadData"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOp9">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="RoadReadOp0"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="SecondaryRoadVis"/>
+        <ResourceReference Value="PrimaryRoadVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Roads">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp9"/>
+    </OrdinaryLayer.Input>
+    <OrdinaryLayer.MaxScale>
+      <ResourceReference Value="RoadsMaxScale"/>
+    </OrdinaryLayer.MaxScale>
+  </OrdinaryLayer>
+  <Color B="177" G="177" Name="BoundsColor" R="177"/>
+  <Color B="148" G="148" Name="CoastLineColour" R="149"/>
+  <LineVisualizer Name="PoliticalBoundsVis">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Color>
+      <KeyedAttributeVariable Key="facc" KeyType="String" ValueType="Color">
+        <KeyedAttributeVariable.Table>
+          <KeyValuePair Key="FA000">
+            <KeyValuePair.Value>
+              <ResourceReference Value="BoundsColor"/>
+            </KeyValuePair.Value>
+          </KeyValuePair>
+          <KeyValuePair Key="BA010">
+            <KeyValuePair.Value>
+              <ResourceReference Value="CoastLineColour"/>
+            </KeyValuePair.Value>
+          </KeyValuePair>
+        </KeyedAttributeVariable.Table>
+        <KeyedAttributeVariable.DefaultValue>
+          <ResourceReference Value="CoastLineColour"/>
+        </KeyedAttributeVariable.DefaultValue>
+      </KeyedAttributeVariable>
+    </LineVisualizer.Color>
+    <LineVisualizer.Width>
+      <KeyedAttributeVariable DefaultValue="1.0" Key="facc" KeyType="String" ValueType="double">
+        <KeyedAttributeVariable.Table>
+          <KeyValuePair Key="FA000" Value="2.0"/>
+          <KeyValuePair Key="BA010" Value="1.0"/>
+        </KeyedAttributeVariable.Table>
+      </KeyedAttributeVariable>
+    </LineVisualizer.Width>
+  </LineVisualizer>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocline" LibraryName="WVS001m" Name="COCLine1M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="LineReadOp0">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCLine1M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="0.0" Name="LodInput6">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="LineReadOp0"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocline" LibraryName="WVS003M" Name="COCLine3M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="LineReadOp1">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCLine3M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="2000000.0" Name="LodInput8">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="LineReadOp1"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocline" LibraryName="WVS012M" Name="COCLine12M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="LineReadOp2">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCLine12M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="8000000.0" Name="LodInput9">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="LineReadOp2"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocline" LibraryName="WVS040M" Name="COCLine40M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="LineReadOp3">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCLine40M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="3.0E7" Name="LodInput10">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="LineReadOp3"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <VpfDataSet CoverageName="coc" FeatureClass="cocline" LibraryName="WVS120M" Name="COCLine120M">
+    <VpfDataSet.FeatureIndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.FeatureIndexPath>
+    <VpfDataSet.IndexPath>
+      <ResourceReference Value="WVSIndexPath"/>
+    </VpfDataSet.IndexPath>
+    <VpfDataSet.Path>
+      <ResourceReference Value="WorldVectorShorelinePath"/>
+    </VpfDataSet.Path>
+  </VpfDataSet>
+  <ReadOperator Name="LineReadOp4">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="COCLine120M"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <LevelOfDetail Limit="1.0E8" Name="LodInput11">
+    <LevelOfDetail.Input>
+      <ResourceReference Value="LineReadOp4"/>
+    </LevelOfDetail.Input>
+  </LevelOfDetail>
+  <LevelOfDetailOperator Criteria="Scale" Name="LOD1">
+    <LevelOfDetailOperator.Inputs>
+      <LevelOfDetails>
+        <ResourceReference Value="LodInput6"/>
+        <ResourceReference Value="LodInput8"/>
+        <ResourceReference Value="LodInput9"/>
+        <ResourceReference Value="LodInput10"/>
+        <ResourceReference Value="LodInput11"/>
+      </LevelOfDetails>
+    </LevelOfDetailOperator.Inputs>
+  </LevelOfDetailOperator>
+  <VisualizationOperator Name="VisualizationOp12">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="LOD1"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="PoliticalBoundsVis"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="COCLineLayer">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp12"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <TileLayer Name="PointsAndLines">
+    <TileLayer.Layers>
+      <Layers>
+        <ResourceReference Value="CityPolygons"/>
+        <ResourceReference Value="Roads"/>
+        <ResourceReference Value="COCLineLayer"/>
+      </Layers>
+    </TileLayer.Layers>
+  </TileLayer>
+  <ProjectParameters Name="ProjectParameters0">
+    <ProjectParameters.RasterDisplacementMax>
+      <DirectAttributeVariable Value="0.0" ValueType="double"/>
+    </ProjectParameters.RasterDisplacementMax>
+  </ProjectParameters>
+  <Path Name="IndexPath">
+    <Path.Parts>
+      <ResourceReference Value="GeoDataRoot"/>
+      <String Value="Index"/>
+    </Path.Parts>
+  </Path>
+  <Path Name="GMTED2010IndexPath">
+    <Path.Parts>
+      <ResourceReference Value="IndexPath"/>
+      <String Value="GMTED2010"/>
+    </Path.Parts>
+  </Path>
+  <Path Name="GMTED2010Path">
+    <Path.Parts>
+      <ResourceReference Value="GeoDataRoot"/>
+      <String Value="GMTED2010"/>
+    </Path.Parts>
+  </Path>
+  <ImageDataSet Continuous="true" Name="GMTED2010" RasterCacheFilter="Average" RasterCachePolicy="Overviews" UndefinedValue="-32768">
+    <ImageDataSet.IndexPath>
+      <ResourceReference Value="GMTED2010IndexPath"/>
+    </ImageDataSet.IndexPath>
+    <ImageDataSet.Path>
+      <ResourceReference Value="GMTED2010Path"/>
+    </ImageDataSet.Path>
+  </ImageDataSet>
+  <ReadOperator Name="ElevationReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="GMTED2010"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <ProjectOperator Name="ProjectOperator0">
+    <ProjectOperator.Input>
+      <ResourceReference Value="ElevationReadOp"/>
+    </ProjectOperator.Input>
+    <ProjectOperator.ProjectParameters>
+      <ResourceReference Value="ProjectParameters0"/>
+    </ProjectOperator.ProjectParameters>
+  </ProjectOperator>
+  <ShadeOperator HeightFactor="3.0" Name="ShadeOperator0" OutputBitDepth="8" OutputUndefinedValues="true" VisualizerFilter="Bicubic">
+    <ShadeOperator.Input>
+      <ResourceReference Value="ProjectOperator0"/>
+    </ShadeOperator.Input>
+  </ShadeOperator>
+  <OrdinaryLayer BlendMode="Multiply" Name="ShadedGMTED" Opacity="0.3">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="ShadeOperator0"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <TileLayer MaxScale="50000000" Name="ShadedRelief">
+    <TileLayer.Layers>
+      <Layers>
+        <ResourceReference Value="ShadedGMTED"/>
+      </Layers>
+    </TileLayer.Layers>
+  </TileLayer>
+  <int Name="SmallCitiesMaxScale" Value="1000000"/>
+  <Font FontName="Arial-13-normal-normal" Name="CityFontSmall"/>
+  <LabelOrganizingSettings Name="LabelOrganizingSettings1">
+    <LabelOrganizingSettings.Count>
+      <DirectAttributeVariable Value="0" ValueType="int"/>
+    </LabelOrganizingSettings.Count>
+    <LabelOrganizingSettings.Priority>
+      <IndirectAttributeVariable Key="POPULATION" ValueType="double"/>
+    </LabelOrganizingSettings.Priority>
+  </LabelOrganizingSettings>
+  <TextVisualizer Name="TextVis5">
+    <TextVisualizer.AlignX>
+      <DirectAttributeVariable Value="Middle" ValueType="AlignX"/>
+    </TextVisualizer.AlignX>
+    <TextVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </TextVisualizer.AntiAlias>
+    <TextVisualizer.Color>
+      <DirectAttributeVariable Value="255,50,50" ValueType="Color"/>
+    </TextVisualizer.Color>
+    <TextVisualizer.Font>
+      <DirectAttributeVariable ValueType="Font">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CityFontSmall"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </TextVisualizer.Font>
+    <TextVisualizer.HaloColor>
+      <DirectAttributeVariable Value="255,255,255,170" ValueType="Color"/>
+    </TextVisualizer.HaloColor>
+    <TextVisualizer.HaloWidth>
+      <DirectAttributeVariable Value="2.0" ValueType="double"/>
+    </TextVisualizer.HaloWidth>
+    <TextVisualizer.LabelOrganizingSettings>
+      <ResourceReference Value="LabelOrganizingSettings1"/>
+    </TextVisualizer.LabelOrganizingSettings>
+    <TextVisualizer.Text>
+      <IndirectAttributeVariable Key="NAME" ValueType="String"/>
+    </TextVisualizer.Text>
+  </TextVisualizer>
+  <TextVisualizer Name="TextVis3">
+    <TextVisualizer.AlignX>
+      <DirectAttributeVariable Value="Middle" ValueType="AlignX"/>
+    </TextVisualizer.AlignX>
+    <TextVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </TextVisualizer.AntiAlias>
+    <TextVisualizer.Color>
+      <DirectAttributeVariable Value="50,50,50" ValueType="Color"/>
+    </TextVisualizer.Color>
+    <TextVisualizer.Font>
+      <DirectAttributeVariable ValueType="Font">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CityFontSmall"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </TextVisualizer.Font>
+    <TextVisualizer.HaloColor>
+      <DirectAttributeVariable Value="255,255,255,170" ValueType="Color"/>
+    </TextVisualizer.HaloColor>
+    <TextVisualizer.LabelOrganizingSettings>
+      <ResourceReference Value="LabelOrganizingSettings1"/>
+    </TextVisualizer.LabelOrganizingSettings>
+    <TextVisualizer.Text>
+      <IndirectAttributeVariable Key="NAME" ValueType="String"/>
+    </TextVisualizer.Text>
+  </TextVisualizer>
+  <Path Name="GeonamesIndexPath">
+    <Path.Parts>
+      <ResourceReference Value="GeoDataRoot"/>
+      <String Value="Index"/>
+      <String Value="worldmap/extract_from_geonames"/>
+    </Path.Parts>
+  </Path>
+  <Path Name="GeonamesPath">
+    <Path.Parts>
+      <ResourceReference Value="GeoDataRoot"/>
+      <String Value="worldmap/extract_from_geonames"/>
+    </Path.Parts>
+  </Path>
+  <ShapefileDataSet CodePage="65001" FileName="cities5000.shp" Name="GeonamesCitiesDataSet" SuppressInitializationErrors="true">
+    <ShapefileDataSet.FeatureIndexPath>
+      <ResourceReference Value="GeonamesIndexPath"/>
+    </ShapefileDataSet.FeatureIndexPath>
+    <ShapefileDataSet.IndexPath>
+      <ResourceReference Value="GeonamesIndexPath"/>
+    </ShapefileDataSet.IndexPath>
+    <ShapefileDataSet.Path>
+      <ResourceReference Value="GeonamesPath"/>
+    </ShapefileDataSet.Path>
+    <ShapefileDataSet.SearchableAttributes>
+      <Atoms>
+        <Atom Value="NAME"/>
+        <Atom Value="ASCIINAME"/>
+      </Atoms>
+    </ShapefileDataSet.SearchableAttributes>
+  </ShapefileDataSet>
+  <ShapefileQuery Name="SmallCityQuery">
+    <ShapefileQuery.Condition>
+      <Condition Expression="POPULATION &lt; 50000"/>
+    </ShapefileQuery.Condition>
+  </ShapefileQuery>
+  <ReadOperator Name="SmallCityReadOp">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="GeonamesCitiesDataSet"/>
+    </ReadOperator.DataSet>
+    <ReadOperator.Query>
+      <ResourceReference Value="SmallCityQuery"/>
+    </ReadOperator.Query>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOp15">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="SmallCityReadOp"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.SelectionVisualizers>
+      <Visualizers>
+        <ResourceReference Value="TextVis5"/>
+      </Visualizers>
+    </VisualizationOperator.SelectionVisualizers>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="TextVis3"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="SmallCities" PixelMarginDown="10" PixelMarginUp="10" Selectable="true">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp15"/>
+    </OrdinaryLayer.Input>
+    <OrdinaryLayer.MaxScale>
+      <ResourceReference Value="SmallCitiesMaxScale"/>
+    </OrdinaryLayer.MaxScale>
+  </OrdinaryLayer>
+  <int Name="CitiesMaxScale" Public="true" Value="3000000"/>
+  <Font FontName="Arial-13-bold-normal" Name="CityFontLarge"/>
+  <LabelOrganizingSettings Name="LabelOrganizingSettings2">
+    <LabelOrganizingSettings.Priority>
+      <IndirectAttributeVariable Key="POPULATION" ValueType="double"/>
+    </LabelOrganizingSettings.Priority>
+  </LabelOrganizingSettings>
+  <TextVisualizer Name="TextVis6">
+    <TextVisualizer.AlignX>
+      <DirectAttributeVariable Value="Middle" ValueType="AlignX"/>
+    </TextVisualizer.AlignX>
+    <TextVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </TextVisualizer.AntiAlias>
+    <TextVisualizer.Color>
+      <DirectAttributeVariable Value="255,50,50" ValueType="Color"/>
+    </TextVisualizer.Color>
+    <TextVisualizer.Font>
+      <DirectAttributeVariable ValueType="Font">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CityFontLarge"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </TextVisualizer.Font>
+    <TextVisualizer.HaloColor>
+      <DirectAttributeVariable Value="255,255,255,170" ValueType="Color"/>
+    </TextVisualizer.HaloColor>
+    <TextVisualizer.HaloWidth>
+      <DirectAttributeVariable Value="2.5" ValueType="double"/>
+    </TextVisualizer.HaloWidth>
+    <TextVisualizer.LabelOrganizingSettings>
+      <ResourceReference Value="LabelOrganizingSettings2"/>
+    </TextVisualizer.LabelOrganizingSettings>
+    <TextVisualizer.OffsetX>
+      <DirectAttributeVariable Value="4.0" ValueType="double"/>
+    </TextVisualizer.OffsetX>
+    <TextVisualizer.OffsetY>
+      <DirectAttributeVariable Value="-4.0" ValueType="double"/>
+    </TextVisualizer.OffsetY>
+    <TextVisualizer.Text>
+      <IndirectAttributeVariable Key="NAME" ValueType="String"/>
+    </TextVisualizer.Text>
+  </TextVisualizer>
+  <TextVisualizer Name="TextVis4">
+    <TextVisualizer.AlignX>
+      <DirectAttributeVariable Value="Middle" ValueType="AlignX"/>
+    </TextVisualizer.AlignX>
+    <TextVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </TextVisualizer.AntiAlias>
+    <TextVisualizer.Color>
+      <DirectAttributeVariable Value="50,50,50" ValueType="Color"/>
+    </TextVisualizer.Color>
+    <TextVisualizer.Font>
+      <DirectAttributeVariable ValueType="Font">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="CityFontLarge"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </TextVisualizer.Font>
+    <TextVisualizer.HaloColor>
+      <DirectAttributeVariable Value="255,255,255,170" ValueType="Color"/>
+    </TextVisualizer.HaloColor>
+    <TextVisualizer.HaloWidth>
+      <DirectAttributeVariable Value="1.5" ValueType="double"/>
+    </TextVisualizer.HaloWidth>
+    <TextVisualizer.LabelOrganizingSettings>
+      <ResourceReference Value="LabelOrganizingSettings2"/>
+    </TextVisualizer.LabelOrganizingSettings>
+    <TextVisualizer.OffsetX>
+      <DirectAttributeVariable Value="4.0" ValueType="double"/>
+    </TextVisualizer.OffsetX>
+    <TextVisualizer.OffsetY>
+      <DirectAttributeVariable Value="-4.0" ValueType="double"/>
+    </TextVisualizer.OffsetY>
+    <TextVisualizer.Text>
+      <IndirectAttributeVariable Key="NAME" ValueType="String"/>
+    </TextVisualizer.Text>
+  </TextVisualizer>
+  <ShapefileQuery Name="NormalCityQuery">
+    <ShapefileQuery.Condition>
+      <Condition Expression="POPULATION &gt;= 50000 and POPULATION &lt; 500000"/>
+    </ShapefileQuery.Condition>
+  </ShapefileQuery>
+  <ReadOperator Name="CityReadOp1">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="GeonamesCitiesDataSet"/>
+    </ReadOperator.DataSet>
+    <ReadOperator.Query>
+      <ResourceReference Value="NormalCityQuery"/>
+    </ReadOperator.Query>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOp14">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="CityReadOp1"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.SelectionVisualizers>
+      <Visualizers>
+        <ResourceReference Value="TextVis6"/>
+      </Visualizers>
+    </VisualizationOperator.SelectionVisualizers>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="TextVis4"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="Cities" PixelMarginDown="10" PixelMarginUp="10" Selectable="true">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp14"/>
+    </OrdinaryLayer.Input>
+    <OrdinaryLayer.MaxScale>
+      <ResourceReference Value="CitiesMaxScale"/>
+    </OrdinaryLayer.MaxScale>
+  </OrdinaryLayer>
+  <int Name="BigCitiesMaxScale" Public="true" Value="50000000"/>
+  <ShapefileQuery Name="BigCityQuery">
+    <ShapefileQuery.Condition>
+      <Condition Expression="POPULATION &gt;= 500000"/>
+    </ShapefileQuery.Condition>
+  </ShapefileQuery>
+  <ReadOperator Name="CityReadOp2">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="GeonamesCitiesDataSet"/>
+    </ReadOperator.DataSet>
+    <ReadOperator.Query>
+      <ResourceReference Value="BigCityQuery"/>
+    </ReadOperator.Query>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOp17">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="CityReadOp2"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.SelectionVisualizers>
+      <Visualizers>
+        <ResourceReference Value="TextVis6"/>
+      </Visualizers>
+    </VisualizationOperator.SelectionVisualizers>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="TextVis4"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="BigCities" PixelMarginDown="10" PixelMarginUp="10" Selectable="true">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp17"/>
+    </OrdinaryLayer.Input>
+    <OrdinaryLayer.MaxScale>
+      <ResourceReference Value="BigCitiesMaxScale"/>
+    </OrdinaryLayer.MaxScale>
+  </OrdinaryLayer>
+  <TileLayer Name="CitiesTileLayer" Selectable="true">
+    <TileLayer.Layers>
+      <Layers>
+        <ResourceReference Value="SmallCities"/>
+        <ResourceReference Value="Cities"/>
+        <ResourceReference Value="BigCities"/>
+      </Layers>
+    </TileLayer.Layers>
+  </TileLayer>
+  <LabelOrganizingLayer Name="CitiesLabelOrganized" Selectable="true">
+    <LabelOrganizingLayer.Layers>
+      <Layers>
+        <ResourceReference Value="CitiesTileLayer"/>
+      </Layers>
+    </LabelOrganizingLayer.Layers>
+  </LabelOrganizingLayer>
+  <LineVisualizer Name="LineVisualizer2"/>
+  <DashedLineStyle Name="DashedLineStyle0"/>
+  <LineVisualizer Name="LineVisualizer1">
+    <LineVisualizer.Style>
+      <DirectAttributeVariable ValueType="LineStyle">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Value="DashedLineStyle0"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </LineVisualizer.Style>
+  </LineVisualizer>
+  <CustomDataSetProxy Name="RoutePlanDatasetProxy" Public="true">
+    <CustomDataSetProxy.SuggestedCrs>
+      <ResourceReference Predefined="true" Value="Crs.Wgs84LongLat"/>
+    </CustomDataSetProxy.SuggestedCrs>
+  </CustomDataSetProxy>
+  <Query Name="LineQuery" ReadMeshes="false" ReadMultiGeometries="false" ReadMultiLines="false" ReadMultiPoints="false" ReadMultiPolygons="false" ReadPoints="false" ReadPolygons="false" ReadRasters="false"/>
+  <ReadOperator Name="ReadOperator0">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="RoutePlanDatasetProxy"/>
+    </ReadOperator.DataSet>
+    <ReadOperator.Query>
+      <ResourceReference Value="LineQuery"/>
+    </ReadOperator.Query>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOperator0">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="ReadOperator0"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.SelectionVisualizers>
+      <Visualizers>
+        <ResourceReference Value="LineVisualizer2"/>
+      </Visualizers>
+    </VisualizationOperator.SelectionVisualizers>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="LineVisualizer1"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="OrdinaryLayer0" Selectable="true">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOperator0"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <SymbolVisualizer Name="SymbolVisualizer1">
+    <SymbolVisualizer.Color>
+      <DirectAttributeVariable Value="0,0,255" ValueType="Color"/>
+    </SymbolVisualizer.Color>
+    <SymbolVisualizer.Symbol>
+      <DirectAttributeVariable ValueType="Symbol">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Predefined="true" Value="Symbols.circle"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </SymbolVisualizer.Symbol>
+  </SymbolVisualizer>
+  <SymbolVisualizer Name="SymbolVisualizer0">
+    <SymbolVisualizer.Scale>
+      <DirectAttributeVariable Value="2.5" ValueType="double"/>
+    </SymbolVisualizer.Scale>
+    <SymbolVisualizer.Symbol>
+      <DirectAttributeVariable ValueType="Symbol">
+        <DirectAttributeVariable.Value>
+          <ResourceReference Predefined="true" Value="Symbols.hollowCircle"/>
+        </DirectAttributeVariable.Value>
+      </DirectAttributeVariable>
+    </SymbolVisualizer.Symbol>
+  </SymbolVisualizer>
+  <Query Name="PointQuery" ReadLines="false" ReadMeshes="false" ReadMultiGeometries="false" ReadMultiLines="false" ReadMultiPoints="false" ReadMultiPolygons="false" ReadPolygons="false" ReadRasters="false"/>
+  <ReadOperator Name="ReadOperator1">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="RoutePlanDatasetProxy"/>
+    </ReadOperator.DataSet>
+    <ReadOperator.Query>
+      <ResourceReference Value="PointQuery"/>
+    </ReadOperator.Query>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOperator1">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="ReadOperator1"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.SelectionVisualizers>
+      <Visualizers>
+        <ResourceReference Value="SymbolVisualizer1"/>
+        <ResourceReference Value="SymbolVisualizer0"/>
+      </Visualizers>
+    </VisualizationOperator.SelectionVisualizers>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="SymbolVisualizer1"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="OrdinaryLayer1" Selectable="true">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOperator1"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <LayerSet Name="LayerSet0" Selectable="true">
+    <LayerSet.Layers>
+      <Layers>
+        <ResourceReference Value="OrdinaryLayer0"/>
+        <ResourceReference Value="OrdinaryLayer1"/>
+      </Layers>
+    </LayerSet.Layers>
+  </LayerSet>
+  <LineVisualizer Name="LineVisualizer0">
+    <LineVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </LineVisualizer.AntiAlias>
+    <LineVisualizer.Color>
+      <DirectAttributeVariable Value="0,0,0,70" ValueType="Color"/>
+    </LineVisualizer.Color>
+  </LineVisualizer>
+  <TextVisualizer Name="TextVisualizer0" RotationMode="Rotated">
+    <TextVisualizer.AlignX>
+      <DirectAttributeVariable Value="Middle" ValueType="AlignX"/>
+    </TextVisualizer.AlignX>
+    <TextVisualizer.AntiAlias>
+      <DirectAttributeVariable Value="true" ValueType="bool"/>
+    </TextVisualizer.AntiAlias>
+    <TextVisualizer.Color>
+      <DirectAttributeVariable Value="0,0,0,150" ValueType="Color"/>
+    </TextVisualizer.Color>
+    <TextVisualizer.Condition>
+      <Condition Expression="impactAngleAtStart &gt; 45"/>
+    </TextVisualizer.Condition>
+    <TextVisualizer.HaloColor>
+      <DirectAttributeVariable Value="255,255,255,80" ValueType="Color"/>
+    </TextVisualizer.HaloColor>
+    <TextVisualizer.OffsetY>
+      <DirectAttributeVariable Value="-5.0" ValueType="double"/>
+    </TextVisualizer.OffsetY>
+    <TextVisualizer.Text>
+      <IndirectAttributeVariable Key="value" ValueType="String"/>
+    </TextVisualizer.Text>
+  </TextVisualizer>
+  <GridGenerator Name="GridGenerator1"/>
+  <VisualizationOperator Name="VisualizationOp16">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="GridGenerator1"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="LineVisualizer0"/>
+        <ResourceReference Value="TextVisualizer0"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="LongLatGrid">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOp16"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <View Name="View0" NominalScale="1800000.0" Public="true">
+    <View.Center>
+      <Point X="1300000.0" Y="5400000.0"/>
+    </View.Center>
+    <View.Constraints>
+      <ResourceReference Value="ViewConstraints0"/>
+    </View.Constraints>
+    <View.Crs>
+      <ResourceReference Predefined="true" Value="Crs.Wgs84MercatorWeb"/>
+    </View.Crs>
+    <View.Drawable>
+      <ResourceReference Value="Window0"/>
+    </View.Drawable>
+    <View.Layers>
+      <Layers>
+        <ResourceReference Value="Land"/>
+        <ResourceReference Value="LandUse"/>
+        <ResourceReference Value="PointsAndLines"/>
+        <ResourceReference Value="ShadedRelief"/>
+        <ResourceReference Value="CitiesLabelOrganized"/>
+        <ResourceReference Value="LayerSet0"/>
+        <ResourceReference Value="LongLatGrid"/>
+      </Layers>
+    </View.Layers>
+  </View>
+</Configuration>

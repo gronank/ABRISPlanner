@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="CEControls.Net">
+      <HintPath>..\..\..\..\..\Program Files\Carmenta\Carmenta Engine 5 SDK\bin\CEControls.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="CECore.Net">
+      <HintPath>..\..\..\..\..\Program Files\Carmenta\Carmenta Engine 5 SDK\bin\CECore.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="CECustomObjects.Net">
+      <HintPath>..\..\..\..\..\Program Files\Carmenta\Carmenta Engine 5 SDK\bin\CECustomObjects.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Map\world_map.px">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
