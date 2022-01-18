@@ -9,5 +9,6 @@ namespace ABRISPlanner.Model
     public class Plan
     {
         public List<Route> Routes;
+        public Situation Situation;
     }
 }

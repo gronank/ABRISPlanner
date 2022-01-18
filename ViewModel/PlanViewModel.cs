@@ -12,12 +12,16 @@ using System.Collections.ObjectModel;
 
 namespace ABRISPlanner.ViewModel
 {
-    public class PlanViewModel:Changeable
+    public class PlanViewModel : Changeable
     {
         private readonly Plan Plan;
+
         private RouteViewModel SelectedRoute_;
         public ICommand AddRoute => new Command(AddRouteCommand);
+        public ICommand UpdateSituation => new Command(UpdateSituationCommand);
+
         public ObservableCollection<RouteViewModel> Routes { get; }
+        public SituationViewModel Situation { get; }
         public RouteViewModel SelectedRoute { get => SelectedRoute_; set { SelectedRoute_ = value; Changed("SelectedRoute"); } }
         public MapViewModel MapControl { get; }
         public int RouteIndex { get; set; }
@@ -47,5 +51,6 @@ namespace ABRISPlanner.ViewModel
             RouteIndex = Plan.Routes.Count - 1;
             Changed("RouteIndex");
         }
+        private void UpdateSituationCommand() => Situation.Update();
     }
 }
