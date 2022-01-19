@@ -15,6 +15,6 @@ namespace ABRISPlanner
         public static IEnumerable<T> OfType<T>(this CE.Configuration config) => config.PublicNames.Select(n => config.GetPublicObject(n)).OfType<T>();
         public static T? FirstOfType<T>(this CE.Configuration config) => config.OfType<T>().FirstOrDefault();
         public static Point ToPoint(this Waypoint wp) => new Point(wp.Longitude, wp.Latitude);
-
+        public static Point ToPoint(this System.Drawing.PointF wp) => new (wp.X, wp.Y);
     }
 }

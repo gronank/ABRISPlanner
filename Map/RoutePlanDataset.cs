@@ -10,7 +10,7 @@ using ABRISPlanner.ViewModel;
 using Carmenta.Engine;
 namespace ABRISPlanner.Map
 {
-    class RoutePlanDataset : ICustomDataSet
+    partial class RoutePlanDataset : ICustomDataSet
     {
         private const ulong MaxWaypointCount = 10000;
         public Rectangle Bounds => Rectangle.Infinite;
@@ -138,15 +138,7 @@ namespace ABRISPlanner.Map
             if (ids.Count == 0)
                 ids = null;
             var features = ids?.Select(GetFeature) ?? Plan.Routes.SelectMany(BuildRouteFeatures);
-            return new RoutePlanQuery(features.Where(query.Match));
-        }
-        class RoutePlanQuery : IQueryResult
-        {
-            private readonly IEnumerator<Feature>  Features;
-            public RoutePlanQuery(IEnumerable<Feature> ftrs)=>Features = ftrs.GetEnumerator();
-            public IEnumerable<Visualizer> GetVisualizers(Feature feature)=>Enumerable.Empty<Visualizer>();
-            public Feature Next() => Features.MoveNext() ? Features.Current : null;
-
+            return new SimpleQuery(features.Where(query.Match));
         }
         private IEnumerable<Feature> BuildRouteFeatures(RouteViewModel route)
         {

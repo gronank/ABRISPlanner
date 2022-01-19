@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Configuration xmlns="http://www.carmenta.com/Engine5" Namespace="world_map" Version="5.14.1.1">
+<Configuration xmlns="http://www.carmenta.com/Engine5" Namespace="world_map" Version="5.15.0.3">
   <Comment Name="README">
     <Comment.Comment>
       <![CDATA[<h4>World map</h4>Uses both raster and vector data sources. Different layers are visible depending on the scale. 
@@ -191,7 +191,7 @@ they do not overwrite each other.]]>
       <ResourceReference Value="VisualizationOp0"/>
     </OrdinaryLayer.Input>
   </OrdinaryLayer>
-  <TileLayer Name="Land" ViewAreaExtensionRadius="25.0">
+  <TileLayer Name="Land" PreloadArea="1.25">
     <TileLayer.Layers>
       <Layers>
         <ResourceReference Value="COCAreaLayer"/>
@@ -1321,6 +1321,72 @@ they do not overwrite each other.]]>
       </Layers>
     </LabelOrganizingLayer.Layers>
   </LabelOrganizingLayer>
+  <MilitaryDAttributes Name="MilitaryDAttributes0"/>
+  <MilStd2525DParameters Name="MilStd2525DParameters0">
+    <MilStd2525DParameters.Attributes>
+      <ResourceReference Value="MilitaryDAttributes0"/>
+    </MilStd2525DParameters.Attributes>
+    <MilStd2525DParameters.Scale>
+      <DirectAttributeVariable Value="0.5" ValueType="double"/>
+    </MilStd2525DParameters.Scale>
+  </MilStd2525DParameters>
+  <TacticalVisualizer Name="TacticalVisualizer0">
+    <TacticalVisualizer.Parameters>
+      <ResourceReference Value="MilStd2525DParameters0"/>
+    </TacticalVisualizer.Parameters>
+  </TacticalVisualizer>
+  <TextVisualizer Name="TextVisualizer1">
+    <TextVisualizer.Condition>
+      <Condition Expression="sidc=&quot;&quot;"/>
+    </TextVisualizer.Condition>
+    <TextVisualizer.Text>
+      <IndirectAttributeVariable Key="SymbolType" ValueType="String"/>
+    </TextVisualizer.Text>
+  </TextVisualizer>
+  <TextVisualizer Name="TextVisualizer2">
+    <TextVisualizer.Text>
+      <IndirectAttributeVariable Key="uniqueDesignation" ValueType="String"/>
+    </TextVisualizer.Text>
+  </TextVisualizer>
+  <CustomDataSetProxy Name="SituationDatasetProxy" Public="true">
+    <CustomDataSetProxy.SuggestedCrs>
+      <ResourceReference Predefined="true" Value="Crs.Wgs84LongLat"/>
+    </CustomDataSetProxy.SuggestedCrs>
+  </CustomDataSetProxy>
+  <ReadOperator Name="ReadOperator2">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="SituationDatasetProxy"/>
+    </ReadOperator.DataSet>
+  </ReadOperator>
+  <SpyOperator Name="SpyOperator0">
+    <SpyOperator.Input>
+      <ResourceReference Value="ReadOperator2"/>
+    </SpyOperator.Input>
+  </SpyOperator>
+  <VisualizationOperator Name="VisualizationOperator3">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="SpyOperator0"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="TacticalVisualizer0"/>
+        <ResourceReference Value="TextVisualizer1"/>
+        <ResourceReference Value="TextVisualizer2"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="OrdinaryLayer3" Selectable="true">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOperator3"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
+  <LayerSet Name="Situation" Selectable="true">
+    <LayerSet.Layers>
+      <Layers>
+        <ResourceReference Value="OrdinaryLayer3"/>
+      </Layers>
+    </LayerSet.Layers>
+  </LayerSet>
   <LineVisualizer Name="LineVisualizer2"/>
   <DashedLineStyle Name="DashedLineStyle0"/>
   <LineVisualizer Name="LineVisualizer1">
@@ -1420,7 +1486,7 @@ they do not overwrite each other.]]>
       <ResourceReference Value="VisualizationOperator1"/>
     </OrdinaryLayer.Input>
   </OrdinaryLayer>
-  <LayerSet Name="LayerSet0" Selectable="true">
+  <LayerSet Name="Plan" Selectable="true">
     <LayerSet.Layers>
       <Layers>
         <ResourceReference Value="OrdinaryLayer0"/>
@@ -1476,7 +1542,10 @@ they do not overwrite each other.]]>
       <ResourceReference Value="VisualizationOp16"/>
     </OrdinaryLayer.Input>
   </OrdinaryLayer>
-  <View Name="View0" NominalScale="1800000.0" Public="true">
+  <View Name="View0" NominalScale="1800000.0" Public="true" StartPosition="Manual">
+    <View.Area>
+      <Rectangle XMax="4932411.542195283" XMin="4335295.834771968" YMax="5478326.047238859" YMin="4951178.62510616"/>
+    </View.Area>
     <View.Center>
       <Point X="1300000.0" Y="5400000.0"/>
     </View.Center>
@@ -1496,9 +1565,45 @@ they do not overwrite each other.]]>
         <ResourceReference Value="PointsAndLines"/>
         <ResourceReference Value="ShadedRelief"/>
         <ResourceReference Value="CitiesLabelOrganized"/>
-        <ResourceReference Value="LayerSet0"/>
+        <ResourceReference Value="Situation"/>
+        <ResourceReference Value="Plan"/>
         <ResourceReference Value="LongLatGrid"/>
       </Layers>
     </View.Layers>
   </View>
+  <AttributeSet Name="AttributeSet0">
+    <Attribute Key="sidc">
+      <Attribute.Value>
+        <AttributeValue Type="String" Value="10031000001212000000"/>
+      </Attribute.Value>
+    </Attribute>
+    <Attribute Key="uniqueDesignation">
+      <Attribute.Value>
+        <AttributeValue Type="String" Value="unique"/>
+      </Attribute.Value>
+    </Attribute>
+    <Attribute Key="Name">
+      <Attribute.Value>
+        <AttributeValue Type="String" Value="unique"/>
+      </Attribute.Value>
+    </Attribute>
+  </AttributeSet>
+  <MemoryDataSet Name="MemoryDataSet0">
+    <MemoryDataSet.Features>
+      <Features>
+        <Feature Name="Feature0">
+          <Feature.Attributes>
+            <ResourceReference Value="AttributeSet0"/>
+          </Feature.Attributes>
+          <Feature.Geometry>
+            <PointGeometry Name="PointGeometry0">
+              <PointGeometry.Point>
+                <Point X="42" Y="42"/>
+              </PointGeometry.Point>
+            </PointGeometry>
+          </Feature.Geometry>
+        </Feature>
+      </Features>
+    </MemoryDataSet.Features>
+  </MemoryDataSet>
 </Configuration>

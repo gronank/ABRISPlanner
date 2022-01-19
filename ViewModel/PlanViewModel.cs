@@ -29,8 +29,9 @@ namespace ABRISPlanner.ViewModel
         {
             Plan = plan;
             Routes = new ObservableCollection<RouteViewModel>(Plan.Routes.Select(r => new RouteViewModel(r, this)));
-            MapControl = new MapViewModel(this);
             Situation = new(Plan.Situation);
+            MapControl = new MapViewModel(this);
+            
         }
         private void AddRouteCommand()
         {
