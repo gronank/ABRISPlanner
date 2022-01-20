@@ -41,14 +41,14 @@ namespace ABRISPlanner.ViewModel
             }
         }
 
-        JsonDocument ParseJson(string url, string file)
+        private static JsonDocument ParseJson(string url, string file)
         {
             System.Net.WebClient wc = new System.Net.WebClient();
  
             string json = wc.DownloadString(url + file);
             return JsonDocument.Parse(json);
         }
-        SituationObject ParseSituationObject(string Key, JsonElement element, ServerSpec spec)
+        private static SituationObject ParseSituationObject(string Key, JsonElement element, ServerSpec spec)
         {
             var selectedRule = spec.PointRules.Where(rule => rule.Sources.Contains(Key)).FirstOrDefault(rule => rule.Condition.Match(element));
             if (selectedRule != null)
@@ -82,7 +82,7 @@ namespace ABRISPlanner.ViewModel
                 .Select(map => map.RootElement.GetProperty("features"))
                 .SelectMany(property => property.EnumerateArray())
                 .Where(ftr => rule.Condition?.Match(ftr) ?? true);
-        PointF GetLocation(JsonElement feature)
+        private static PointF GetLocation(JsonElement feature)
         {
             var coordinates = feature.GetProperty("geometry").GetProperty("coordinates").EnumerateArray().Select(xy => xy.GetDouble()).ToArray();
             return new((float)coordinates[0], (float)coordinates[1]);
