@@ -26,7 +26,8 @@ namespace ABRISPlanner.ViewModel
             };
             var specText = File.ReadAllText(ServerSpec);
             var spec = JsonSerializer.Deserialize<ServerSpec>(specText, options);
-            Situation.Symbols=spec.DataSources.SelectMany(x => ParseFeatures(x, spec)).Select(element=>ParsePoint(element.Key, element.Element, spec.PointRules)).Where(x=>x!=null).ToList();
+            var situationObjects = spec.DataSources.SelectMany(x => ParseFeatures(x, spec)).Select(element => ParseSituationObject(element.Key, element.Element, spec)).Where(x => x != null).ToList();
+            Situation.Symbols= situationObjects.OfType<SymbolSituationObject>().ToList();
             //Dictionary<string, List<JsonElement>> features = new(spec.DataSources.Select((x) => new KeyValuePair<string, List<JsonElement>>(x.Key, ParseJson(spec.ServerUrl, x.Value).RootElement.GetProperty("features").EnumerateArray().ToList())));
             //Situation.Symbols = spec.PointRules.SelectMany(rule => ParsePoints(rule, features)).ToList();
             Changed("Situation");
@@ -47,18 +48,20 @@ namespace ABRISPlanner.ViewModel
             string json = wc.DownloadString(url + file);
             return JsonDocument.Parse(json);
         }
-        SymbolSituationObject ParsePoint(string Key, JsonElement element, List<PointRule> rules)
+        SituationObject ParseSituationObject(string Key, JsonElement element, ServerSpec spec)
         {
-            var selectedRule = rules.Where(rule => rule.Sources.Contains(Key)).FirstOrDefault(rule => rule.Condition.Match(element));
-            if (selectedRule == null)
-                return null;
-            return new()
+            var selectedRule = spec.PointRules.Where(rule => rule.Sources.Contains(Key)).FirstOrDefault(rule => rule.Condition.Match(element));
+            if (selectedRule != null)
             {
-                Location = GetLocation(element),
-                Name = selectedRule.Name.Parse(element),
-                SymbolType = selectedRule.SymbolType,
-                Disable = selectedRule.Disable
-            };
+                return new SymbolSituationObject()
+                {
+                    Location = GetLocation(element),
+                    Name = selectedRule.Name.Parse(element),
+                    SymbolType = selectedRule.SymbolType,
+                    Disable = selectedRule.Disable
+                };
+            }
+            return null;
         }
         IEnumerable<SymbolSituationObject> ParsePoints(PointRule rule, Dictionary<string, JsonDocument> featureMap)
         {

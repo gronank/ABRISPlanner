@@ -1343,11 +1343,6 @@ they do not overwrite each other.]]>
       <IndirectAttributeVariable Key="SymbolType" ValueType="String"/>
     </TextVisualizer.Text>
   </TextVisualizer>
-  <TextVisualizer Name="TextVisualizer2">
-    <TextVisualizer.Text>
-      <IndirectAttributeVariable Key="uniqueDesignation" ValueType="String"/>
-    </TextVisualizer.Text>
-  </TextVisualizer>
   <CustomDataSetProxy Name="SituationDatasetProxy" Public="true">
     <CustomDataSetProxy.SuggestedCrs>
       <ResourceReference Predefined="true" Value="Crs.Wgs84LongLat"/>
@@ -1358,20 +1353,14 @@ they do not overwrite each other.]]>
       <ResourceReference Value="SituationDatasetProxy"/>
     </ReadOperator.DataSet>
   </ReadOperator>
-  <SpyOperator Name="SpyOperator0">
-    <SpyOperator.Input>
-      <ResourceReference Value="ReadOperator2"/>
-    </SpyOperator.Input>
-  </SpyOperator>
   <VisualizationOperator Name="VisualizationOperator3">
     <VisualizationOperator.Input>
-      <ResourceReference Value="SpyOperator0"/>
+      <ResourceReference Value="ReadOperator2"/>
     </VisualizationOperator.Input>
     <VisualizationOperator.Visualizers>
       <Visualizers>
         <ResourceReference Value="TacticalVisualizer0"/>
         <ResourceReference Value="TextVisualizer1"/>
-        <ResourceReference Value="TextVisualizer2"/>
       </Visualizers>
     </VisualizationOperator.Visualizers>
   </VisualizationOperator>
@@ -1579,12 +1568,12 @@ they do not overwrite each other.]]>
     </Attribute>
     <Attribute Key="uniqueDesignation">
       <Attribute.Value>
-        <AttributeValue Type="String" Value="unique"/>
+        <AttributeValue Type="String" Value="FA-18C_hornet-Ranger 1-1 | Crow"/>
       </Attribute.Value>
     </Attribute>
     <Attribute Key="Name">
       <Attribute.Value>
-        <AttributeValue Type="String" Value="unique"/>
+        <AttributeValue Type="String" Value="FA-18C_hornet-Ranger 1-1 | Crow"/>
       </Attribute.Value>
     </Attribute>
   </AttributeSet>

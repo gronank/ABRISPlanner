@@ -2,7 +2,7 @@
 
 namespace ABRISPlanner.Model
 {
-    public class SymbolSituationObject
+    public class SymbolSituationObject: SituationObject
     {
         public string SymbolType;
         public string Name;
