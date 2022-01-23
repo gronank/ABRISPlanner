@@ -65,10 +65,27 @@
     },
     {
       "sources": [ "map" ],
-      "condition": {
-        "property": "icon",
-        "pattern": "^mark$"
-      },
+      "condition": [
+        {
+          "property": "icon",
+          "pattern": "^mark$"
+        },
+        {
+          "property": "description",
+          "pattern": "^JTAC -",
+          "inverted": true
+        },
+        {
+          "property": "description",
+          "pattern": "^Objective Area ",
+          "inverted": true
+        },
+        {
+          "property": "description",
+          "pattern": "^(PHASE LINE|PL)",
+          "inverted": true
+        }
+      ],
       "symbolType": "obstacle",
       "name": {
         "property": "description",
