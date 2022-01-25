@@ -25,12 +25,12 @@
       "sources": [ "map" ],
       "condition": {
         "property": "description",
-        "pattern": "^Farp "
+        "pattern": "Spawn Point$"
       },
       "symbolType": "farp",
       "name": {
         "property": "description",
-        "pattern": "^Farp (\\S*).*",
+        "pattern": "^(\\S*).*",
         "replace": "\\1"
       },
       "disable": "nofarp"
@@ -44,7 +44,7 @@
       "symbolType": "airDefenceHostile",
       "name": {
         "property": "description",
-        "pattern": ".*Spotted: (\\S*) .*",
+        "pattern": ".*?Spotted: (\\S*) .*",
         "replace": "\\1"
       },
       "disable": "nosam"
@@ -89,7 +89,7 @@
       "symbolType": "obstacle",
       "name": {
         "property": "description",
-        "pattern": "^ *(\\S*).*",
+        "pattern": "(.*)",
         "replace": "\\1"
       },
       "disable": "nomark"

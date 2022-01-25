@@ -16,6 +16,9 @@
     <Reference Include="CECustomObjects.Net">
       <HintPath>..\..\..\..\..\Program Files\Carmenta\Carmenta Engine 5 SDK\bin\CECustomObjects.Net.dll</HintPath>
     </Reference>
+    <Reference Include="clipper_library">
+      <HintPath>clipper_library.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

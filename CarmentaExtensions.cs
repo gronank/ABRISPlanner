@@ -16,5 +16,6 @@ namespace ABRISPlanner
         public static T? FirstOfType<T>(this CE.Configuration config) => config.OfType<T>().FirstOrDefault();
         public static Point ToPoint(this Waypoint wp) => new Point(wp.Longitude, wp.Latitude);
         public static Point ToPoint(this System.Drawing.PointF wp) => new (wp.X, wp.Y);
+        public static string ToColorString(this System.Drawing.Color color) => $"rgba({color.R},{color.G},{color.B},{color.A})";
     }
 }

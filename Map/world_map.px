@@ -1321,6 +1321,58 @@ they do not overwrite each other.]]>
       </Layers>
     </LabelOrganizingLayer.Layers>
   </LabelOrganizingLayer>
+  <IndirectAttributeVariable Key="color" Name="ColorAttributeVariable0" ValueType="Color"/>
+  <Condition Expression="fillStyle=&quot;line&quot;" Name="Condition0"/>
+  <LineVisualizer Name="LineVisualizer3">
+    <LineVisualizer.Color>
+      <ResourceReference Value="ColorAttributeVariable0"/>
+    </LineVisualizer.Color>
+    <LineVisualizer.Condition>
+      <ResourceReference Value="Condition0"/>
+    </LineVisualizer.Condition>
+    <LineVisualizer.Width>
+      <DirectAttributeVariable Value="2.0" ValueType="double"/>
+    </LineVisualizer.Width>
+  </LineVisualizer>
+  <Condition Expression="fillStyle=&quot;filledHostile&quot;&#10;" Name="Condition1"/>
+  <PolygonVisualizer Name="PolygonVisualizer0">
+    <PolygonVisualizer.Color>
+      <DirectAttributeVariable Value="0,0,255,50" ValueType="Color"/>
+    </PolygonVisualizer.Color>
+    <PolygonVisualizer.Condition>
+      <ResourceReference Value="Condition1"/>
+    </PolygonVisualizer.Condition>
+  </PolygonVisualizer>
+  <CustomDataSetProxy Name="SituationDatasetProxy" Public="true">
+    <CustomDataSetProxy.SuggestedCrs>
+      <ResourceReference Predefined="true" Value="Crs.Wgs84LongLat"/>
+    </CustomDataSetProxy.SuggestedCrs>
+  </CustomDataSetProxy>
+  <Query Name="Query1" ReadLines="false" ReadPoints="false"/>
+  <ReadOperator Name="ReadOperator3">
+    <ReadOperator.DataSet>
+      <ResourceReference Value="SituationDatasetProxy"/>
+    </ReadOperator.DataSet>
+    <ReadOperator.Query>
+      <ResourceReference Value="Query1"/>
+    </ReadOperator.Query>
+  </ReadOperator>
+  <VisualizationOperator Name="VisualizationOperator2">
+    <VisualizationOperator.Input>
+      <ResourceReference Value="ReadOperator3"/>
+    </VisualizationOperator.Input>
+    <VisualizationOperator.Visualizers>
+      <Visualizers>
+        <ResourceReference Value="LineVisualizer3"/>
+        <ResourceReference Value="PolygonVisualizer0"/>
+      </Visualizers>
+    </VisualizationOperator.Visualizers>
+  </VisualizationOperator>
+  <OrdinaryLayer Name="OrdinaryLayer2">
+    <OrdinaryLayer.Input>
+      <ResourceReference Value="VisualizationOperator2"/>
+    </OrdinaryLayer.Input>
+  </OrdinaryLayer>
   <MilitaryDAttributes Name="MilitaryDAttributes0"/>
   <MilStd2525DParameters Name="MilStd2525DParameters0">
     <MilStd2525DParameters.Attributes>
@@ -1335,23 +1387,40 @@ they do not overwrite each other.]]>
       <ResourceReference Value="MilStd2525DParameters0"/>
     </TacticalVisualizer.Parameters>
   </TacticalVisualizer>
+  <IndirectAttributeVariable DefaultValue="0.0" Key="displayPriority" Name="DoubleAttributeVariable0" ValueType="double"/>
+  <LabelOrganizingSettings Name="LabelOrganizingSettings0">
+    <LabelOrganizingSettings.Priority>
+      <ResourceReference Value="DoubleAttributeVariable0"/>
+    </LabelOrganizingSettings.Priority>
+    <LabelOrganizingSettings.RemoveConflicts>
+      <DirectAttributeVariable Value="false" ValueType="bool"/>
+    </LabelOrganizingSettings.RemoveConflicts>
+  </LabelOrganizingSettings>
   <TextVisualizer Name="TextVisualizer1">
-    <TextVisualizer.Condition>
-      <Condition Expression="sidc=&quot;&quot;"/>
-    </TextVisualizer.Condition>
+    <TextVisualizer.HaloColor>
+      <DirectAttributeVariable Value="255,255,255,150" ValueType="Color"/>
+    </TextVisualizer.HaloColor>
+    <TextVisualizer.HaloWidth>
+      <DirectAttributeVariable Value="2.0" ValueType="double"/>
+    </TextVisualizer.HaloWidth>
+    <TextVisualizer.LabelOrganizingSettings>
+      <ResourceReference Value="LabelOrganizingSettings0"/>
+    </TextVisualizer.LabelOrganizingSettings>
+    <TextVisualizer.OffsetX>
+      <DirectAttributeVariable Value="20.0" ValueType="double"/>
+    </TextVisualizer.OffsetX>
     <TextVisualizer.Text>
-      <IndirectAttributeVariable Key="SymbolType" ValueType="String"/>
+      <IndirectAttributeVariable Key="Name" ValueType="String"/>
     </TextVisualizer.Text>
   </TextVisualizer>
-  <CustomDataSetProxy Name="SituationDatasetProxy" Public="true">
-    <CustomDataSetProxy.SuggestedCrs>
-      <ResourceReference Predefined="true" Value="Crs.Wgs84LongLat"/>
-    </CustomDataSetProxy.SuggestedCrs>
-  </CustomDataSetProxy>
+  <Query Name="Query0" ReadLines="false" ReadPolygons="false"/>
   <ReadOperator Name="ReadOperator2">
     <ReadOperator.DataSet>
       <ResourceReference Value="SituationDatasetProxy"/>
     </ReadOperator.DataSet>
+    <ReadOperator.Query>
+      <ResourceReference Value="Query0"/>
+    </ReadOperator.Query>
   </ReadOperator>
   <VisualizationOperator Name="VisualizationOperator3">
     <VisualizationOperator.Input>
@@ -1369,10 +1438,18 @@ they do not overwrite each other.]]>
       <ResourceReference Value="VisualizationOperator3"/>
     </OrdinaryLayer.Input>
   </OrdinaryLayer>
+  <LabelOrganizingLayer Name="LabelOrganizingLayer0">
+    <LabelOrganizingLayer.Layers>
+      <Layers>
+        <ResourceReference Value="OrdinaryLayer2"/>
+        <ResourceReference Value="OrdinaryLayer3"/>
+      </Layers>
+    </LabelOrganizingLayer.Layers>
+  </LabelOrganizingLayer>
   <LayerSet Name="Situation" Selectable="true">
     <LayerSet.Layers>
       <Layers>
-        <ResourceReference Value="OrdinaryLayer3"/>
+        <ResourceReference Value="LabelOrganizingLayer0"/>
       </Layers>
     </LayerSet.Layers>
   </LayerSet>
@@ -1587,7 +1664,7 @@ they do not overwrite each other.]]>
           <Feature.Geometry>
             <PointGeometry Name="PointGeometry0">
               <PointGeometry.Point>
-                <Point X="42" Y="42"/>
+                <Point X="42.0" Y="42.0"/>
               </PointGeometry.Point>
             </PointGeometry>
           </Feature.Geometry>

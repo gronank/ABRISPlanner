@@ -17,6 +17,9 @@ namespace ABRISPlanner.Map
         private static Atom DesigantionAtom = new("uniqueDesignation");
         private static Atom SymbolTypeAtom = new("SymbolType");
         private static Atom SidcAtom = new("sidc");
+        private static Atom DisplayPriorityAtom = new("displayPriority");
+        private static Atom ColorAtom = new("color");
+        private static Atom FillStyleAtom = new("fillStyle");
         public Rectangle Bounds => Rectangle.Infinite;
 
         public bool CreatesReferences => false;
@@ -53,22 +56,62 @@ namespace ABRISPlanner.Map
 
         public IQueryResult Query(Rectangle area, Query query, UInt64Collection ids, ViewInfo info)
         {
-            var symbols = Situation.Situation.Symbols.Select(s => MakeFeature(s));
+            IEnumerable<Feature> features = Enumerable.Empty<Feature>();
+            if (query.ReadPoints)
+            {
+                features = features.Concat(Situation.Situation.Symbols.Select(MakeSymbol));
+            }
+            if (query.ReadPolygons)
+            {
+                features = features.Concat(Situation.Situation.Zones.Select(MakeZone));
+            }
+
             featureId = 0;
-            return new SimpleQuery(symbols);
+            return new SimpleQuery(features);
         }
 
-        private Feature MakeFeature(SymbolSituationObject s)
+        private Feature MakeZone(ZoneSituationObject zone)
         {
             AttributeSet attributes = new()
             {
-                [NameAtom] = s.Name,
+                [ColorAtom] = zone.Color.ToColorString(),
+                [FillStyleAtom] = zone.Style
+            };
+            return new Feature(new PolygonGeometry(zone.Buffer.Select(p => p.ToPoint())), Crs, attributes, new Id(Context.Id, featureId++));
+        }
+
+        private Feature MakeSymbol(SymbolSituationObject s)
+        {
+            AttributeSet attributes = new()
+            {
+                [NameAtom] = GetName(s),
                 [DesigantionAtom] = s.Name,
                 [SymbolTypeAtom] = s.SymbolType,
-                [SidcAtom] = GetSidc(s.SymbolType)
+                [SidcAtom] = GetSidc(s.SymbolType),
+                [DisplayPriorityAtom] = GetPriority(s)
             };
             return new(new PointGeometry(s.Location.ToPoint()), Crs, attributes,new Id(Context.Id, featureId++));
         }
+
+        private AttributeValue GetPriority(SymbolSituationObject s) =>
+            s.SymbolType switch
+            {
+                "landmark" => 9.0,
+                "farp" => 10.0,
+                "airDefenceHostile" => 8.0,
+                _ => 0.0
+            };
+
+        private AttributeValue GetName(SymbolSituationObject s) =>
+            s.SymbolType switch
+            {
+                "landmark" => s.Name,
+                "farp" => s.Name,
+                "airDefenceHostile" => s.Name,
+                "obstacle" => s.Name,
+                _ => ""
+            };
+        
 
         private string GetSidc(string symbolType) =>
             symbolType switch

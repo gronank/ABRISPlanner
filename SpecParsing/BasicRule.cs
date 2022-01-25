@@ -13,7 +13,7 @@ namespace ABRISPlanner.SpecParsing
         [JsonPropertyName("disable")]
         public string Disable { get; set; }
         [JsonPropertyName("condition")]
-        public List<RuleCondition> Conditions { get; set; }
+        public List<RuleCondition> Conditions { get; set; } = new();
         [JsonPropertyName("name")]
         public RuleCondition Name { get; set; }
         public Color Color { get; set; }

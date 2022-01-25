@@ -81,7 +81,7 @@ namespace ABRISPlanner.Map
 
         public bool OnMouseWheel(int delta, int x, int y, bool shift, bool ctrl, bool alt)
         {
-            throw new NotImplementedException();
+            return BaseTool.OnMouseWheel(delta, x, y, shift, ctrl, alt);
         }
         private Point Parse(int x, int y) => View.Crs.UnprojectToLongLat(View.PixelToCrs(x, y));
     }
