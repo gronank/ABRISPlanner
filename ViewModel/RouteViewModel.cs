@@ -82,6 +82,7 @@ namespace ABRISPlanner.ViewModel
             if (index < Route.Waypoints.Count)
             {
                 Waypoints.Insert(index, w);
+                Waypoints[index].MakeSelected();
             }
             else
             {
